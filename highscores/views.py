@@ -163,3 +163,24 @@ def submit(request):
     data = list(up_rows) + list(down_rows) + list([it_score])
 
     return HttpResponse(json.dumps(data), mimetype='application/json')
+
+
+@csrf_exempt
+def validate_client(request):
+    if request.META['HTTP_USER_AGENT'] != settings.EXPECTED_USER_AGENT:
+        return validation_error("Invalid user agent")
+
+    input_version = request.POST.get('version')
+    obj_version = Version.objects.get(version=unicode(input_version))
+
+    data = Checksum.objects.filter(enabled=True, version=obj_version).order_by('filename')
+
+    string = ""
+    for checksum in data:
+        string += "%s\n" % checksum.filename
+
+    resp = HttpResponse(string, mimetype="text/plain")
+    resp['Cache-Control'] = 'no-cache'
+    resp['Content-Length'] = len(string)
+
+    return resp

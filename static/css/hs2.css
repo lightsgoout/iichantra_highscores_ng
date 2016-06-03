@@ -1,0 +1,34 @@
+#version_list {
+width: 990px;
+height: 50px;
+margin: 0 auto;
+clear: both;
+}
+
+#mode_list {
+width: 990px;
+height: 50px;
+margin: 0 auto;
+}
+
+#version_list li {
+display: block;
+margin: 0;
+float: left;
+width: 192px;
+height: 36px;
+text-align: center;
+padding-top: 14px;
+}
+
+#mode_list li {
+    display: block;
+    margin: 0;
+    float: left;
+    width: 192px;
+    height: 36px;
+    text-align: center;
+    font-size: 11px;
+
+}
+

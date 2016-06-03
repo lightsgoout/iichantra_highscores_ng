@@ -1,0 +1,120 @@
+{% load highscores_extras %}
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <title>iiChantra: Рекорды</title>
+    <link rel="stylesheet" type="text/css" href="http://iichantra.ru/public/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/hs2.css"/>
+    <link rel="shortcut icon" href="http://iichantra.ru/img/favicon.png"/>
+    <meta name="author" content="mezriss(at)gmail.com"/>
+    <meta name="google-site-verification" content="-8ho8ECeyYPklW42sS8kz0ItHyQdO2RQZfSqk9VUih8"/>
+    <meta name="revisit" content="3"/>
+    <meta name="robots" content="all"/>
+    <script type="text/javascript">var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-17314423-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+    })();</script>
+</head>
+<body>
+<div id="wrap">
+    <div id="logo"><a href="http://iichantra.ru"><img src="http://iichantra.ru/img/spacer.gif" alt="iiChantra"/></a></div>
+    <div id="menu">
+        <ul>
+            <li><a id="news" href="http://iichantra.ru/news"><img src="http://iichantra.ru/img/spacer.gif" alt="Новости"/></a></li>
+            <li><a id="about" href="http://iichantra.ru/about"><img src="http://iichantra.ru/img/spacer.gif" alt="Об игре"/></a></li>
+            <li><a id="developers" href="http://iichantra.ru/developers"><img src="http://iichantra.ru/img/spacer.gif" alt="О нас"/></a></li>
+            <li><a id="gallery" href="http://iichantra.ru/gallery"><img src="http://iichantra.ru/img/spacer.gif" alt="Галерея"/></a></li>
+            <li><a id="downloads" href="http://iichantra.ru/downloads"><img src="http://iichantra.ru/img/spacer.gif" alt="Загрузка"/></a></li>
+            <li><a id="records" href="http://highscores.iichantra.ru"><img src="http://iichantra.ru/img/spacer.gif" alt="Рекорды"/></a></li>
+        </ul>
+    </div>
+    <div id="version_list">
+	<ul>
+	    {% for version in version_list %}
+		<li>
+		    {% if version.version == current_version.version %}
+			{{version.title}}
+		    {% else %}
+			<a href="/?version={{version.version}}">{{version.title}}</a>
+		    {% endif %}
+		</li>
+	    {% endfor %}
+	</ul>
+    </div>
+    <div id="mode_list">
+	<ul>
+	    {% for mode in mode_list %}
+		<li>
+		    {% if mode.name == current_mode.name %}
+			{{mode.name}}
+		    {% else %}
+			<a href="/?version={{current_version.version}}&mode={{mode.id}}">{{mode.name}}</a>
+		    {% endif %}
+		</li>
+	    {% endfor %}
+	</ul>
+    </div>
+
+    <div id="content">
+        <div id="main">
+            <table id="highscores">
+                <tr>
+                    <th>#</th>
+                    <th>Nickname</th>
+                    <th>Character</th>
+                    <th>Score</th>
+                    <th>Date</th>
+                    <th>Run time</th>
+                </tr>
+{% for score in scores.object_list %}
+<tr>
+    <td>{{ scores.number|mult:scores.paginator.per_page|sub:scores.paginator.per_page|add:forloop.counter }}</td>
+    <td>{{ score.nickname }}</td>
+    <td>{% if score.character != Null %}{{ score.character }} {% else %} n/a {% endif %}</td>
+    <td>{{ score.score }}</td>
+    <td>{{ score.date }}</td>
+    <td>{{ score.seconds|seconds2time }}</td>
+</tr>
+{% endfor %}
+</table>
+<div class="pagination">
+    <span class="step-links">
+	{% if scores.has_previous %}
+	    <a href="/?version={{current_version.version}}&mode={{current_mode.id}}&page={{ scores.previous_page_number }}">previous</a>
+	{% endif %}
+
+	<span class="current">
+	    Page {{ scores.number }} of {{ scores.paginator.num_pages }}.
+	</span>
+
+	{% if scores.has_next %}
+	    <a href="/?version={{current_version.version}}&mode={{current_mode.id}}&page={{ scores.next_page_number }}">next</a>
+	{% endif %}
+    </span>
+</div>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div class="copy">&copy; iiChantra 2008-2011.
+        <div class="social"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="iichantra">Tweet</a>
+            <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+            <br>
+            <iframe
+                    src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fiichantra.ru%2F&amp;send=false&amp;layout=button_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21"
+                    scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:90px; height:21px;"
+                    allowTransparency="true"></iframe>
+        </div>
+    </div>
+    <a id="an" href="http://iichantra.ru/developers"><img src="http://iichantra.ru/img/anonymous.png" alt="Anonymous(r) "/></a></div>
+</body>
+</html>

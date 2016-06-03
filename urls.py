@@ -19,8 +19,8 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    (r'^highscores', 'highscores.views.index'),
-    (r'^$', 'highscores.views.index'),
-    (r'^submit/$', 'highscores.views.submit'),
-    (r'^validate_client/$', 'highscores.views.validate_client'),
+    url(r'^highscores', 'highscores.views.index'),
+    url(r'^$', 'highscores.views.index'),
+    url(r'^submit/$', 'highscores.views.submit'),
+    url(r'^validate_client/$', 'highscores.views.validate_client'),
 ]

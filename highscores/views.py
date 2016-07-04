@@ -18,11 +18,12 @@ def index(request):
     in_mode = request.GET.get('mode', settings.DEFAULT_IICHANTRA_MODE)
 
     try:
-    	obj_mode = GameMode.objects.get(version=obj_version, number=in_mode)
-    except:
-	    obj_mode = GameMode.objects.get(version=obj_version, number=(int(in_mode)-2))
+        obj_mode = GameMode.objects.get(version=obj_version, number=in_mode)
+    except GameMode.DoesNotExist:
+        # Fallback for 1.2 iichantra
+        obj_mode = GameMode.objects.get(version=obj_version, number=(int(in_mode)-2))
 
-    score_list = Score.objects.filter(version=obj_version, mode=in_mode).order_by('-score', 'seconds')
+    score_list = Score.objects.filter(version=obj_version, mode__number=in_mode).order_by('-score', 'seconds')
     paginator = Paginator(score_list, 50)
 
     version_list = Version.objects.filter(is_public=True).order_by('-id')
@@ -142,7 +143,7 @@ def submit(request):
     except ValueError:
         return validation_error("Invalid seconds")
 
-    mode_obj = GameMode.objects.get(pk=input_mode)
+    mode_obj = GameMode.objects.get(version=version_obj, number=input_mode)
 
     UP_ROWS = request.POST.get('up_rows', 2)
     DOWN_ROWS = request.POST.get('down_rows', 2)

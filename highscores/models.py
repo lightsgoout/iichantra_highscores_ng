@@ -25,6 +25,7 @@ class GameMode(models.Model):
     name = models.CharField(max_length=32)
     version = models.ForeignKey(Version)
     is_public = models.BooleanField(default=True)
+    number = models.PositiveSmallIntegerField(null=True)
 
     def __unicode__(self):
         return "%s" % self.name

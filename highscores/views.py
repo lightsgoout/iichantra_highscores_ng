@@ -16,7 +16,12 @@ def index(request):
     in_version = request.GET.get('version', settings.CURRENT_IICHANTRA_VERSION)
     obj_version = Version.objects.get(version=unicode(in_version))
     in_mode = request.GET.get('mode', settings.DEFAULT_IICHANTRA_MODE)
-    obj_mode = GameMode.objects.get(id=in_mode)
+
+    try:
+    	obj_mode = GameMode.objects.get(version=obj_version, number=in_mode)
+    except:
+	    obj_mode = GameMode.objects.get(version=obj_version, number=(int(in_mode)-2))
+
     score_list = Score.objects.filter(version=obj_version, mode=in_mode).order_by('-score', 'seconds')
     paginator = Paginator(score_list, 50)
 

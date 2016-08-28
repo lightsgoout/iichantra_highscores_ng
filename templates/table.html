@@ -73,7 +73,9 @@
                 <tr>
                     <th>#</th>
                     <th>Nickname</th>
+                  {% if current_version.version != "2011_winter" and current_version.version != "2015_winter" %}
                     <th>Character</th>
+                  {% endif %}
                     <th>Score</th>
                     <th>Date</th>
                     <th>Run time</th>
@@ -82,7 +84,9 @@
 <tr>
     <td>{{ scores.number|mult:scores.paginator.per_page|sub:scores.paginator.per_page|add:forloop.counter }}</td>
     <td>{{ score.nickname }}</td>
-    <td>{% if score.character != Null %}{{ score.character }} {% else %} n/a {% endif %}</td>
+  {% if current_version.version != "2011_winter" and current_version.version != "2015_winter" %}
+    <td>{% if score.character %}{{ score.character }} {% else %} n/a {% endif %}</td>
+  {% endif %}
     <td>{{ score.score }}</td>
     <td>{{ score.date }}</td>
     <td>{{ score.seconds|seconds2time }}</td>

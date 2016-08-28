@@ -168,7 +168,7 @@ def submit(request):
                 :DOWN_ROWS]
     data = list(up_rows) + list(down_rows) + list([it_score])
 
-    return HttpResponse(json.dumps(data), mimetype='application/json')
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 
 @csrf_exempt
@@ -185,7 +185,7 @@ def validate_client(request):
     for checksum in data:
         string += "%s\n" % checksum.filename
 
-    resp = HttpResponse(string, mimetype="text/plain")
+    resp = HttpResponse(string, content_type="text/plain")
     resp['Cache-Control'] = 'no-cache'
     resp['Content-Length'] = len(string)
 

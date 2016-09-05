@@ -168,7 +168,9 @@ def submit(request):
                 :DOWN_ROWS]
     data = list(up_rows) + list(down_rows) + list([it_score])
 
-    return HttpResponse(json.dumps(data), content_type='application/json')
+    r_data = serializers.serialize('json', data)
+
+    return HttpResponse(r_data, content_type='application/json')
 
 
 @csrf_exempt

@@ -193,3 +193,17 @@ def validate_client(request):
     resp['Content-Length'] = len(string)
 
     return resp
+
+@csrf_exempt
+def highscores(request):
+    in_version = request.GET.get('version', settings.CURRENT_IICHANTRA_VERSION)
+    obj_version = Version.objects.get(version=unicode(in_version))
+    in_mode = request.GET.get('mode', settings.DEFAULT_IICHANTRA_MODE)
+    try:
+        obj_mode = GameMode.objects.get(number=in_mode, version=obj_version)	
+    except GameMode.DoesNotExist:
+        # Fallback for 1.2 iichantra
+        obj_mode = GameMode.objects.get(number=(int(in_mode)-2), version=obj_version)
+    score_list = Score.objects.filter(version=obj_version, mode=obj_mode.id).order_by('-score', 'seconds')
+    _json = serializers.serialize("json", score_list)
+    return HttpResponse(_json, content_type='application/json')

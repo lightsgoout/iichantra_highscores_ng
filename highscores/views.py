@@ -4,6 +4,7 @@ import json
 
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Q
+from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.conf import settings

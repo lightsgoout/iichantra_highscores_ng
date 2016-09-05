@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^$', 'highscores.views.index'),
     url(r'^submit/$', 'highscores.views.submit'),
     url(r'^validate_client/$', 'highscores.views.validate_client'),
+    url(r'^api/highscores/$', 'highscores.views.highscores'),
 ]

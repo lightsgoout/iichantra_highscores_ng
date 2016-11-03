@@ -162,10 +162,10 @@ def submit(request):
 
     up_rows = Score.objects.filter(
         (Q(score__gt=input_score) | (Q(score=input_score) & Q(seconds__lte=input_seconds))) & Q(
-            version=version_obj), Q(mode=mode_obj)).exclude(pk=it_score.pk).order_by('score', 'seconds')[:UP_ROWS]
+            version=version_obj), Q(mode=mode_obj)).exclude(pk=it_score.pk).order_by('score', '-seconds')[:UP_ROWS]
     down_rows = Score.objects.filter(
         (Q(score__lt=input_score) | (Q(score=input_score) & Q(seconds__gte=input_seconds))) & Q(
-            version=version_obj), Q(mode=mode_obj)).exclude(pk=it_score.pk).order_by('-score', '-seconds')[
+            version=version_obj), Q(mode=mode_obj)).exclude(pk=it_score.pk).order_by('-score', 'seconds')[
                 :DOWN_ROWS]
     data = list(up_rows) + list(down_rows) + list([it_score])
 
